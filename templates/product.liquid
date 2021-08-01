@@ -1,0 +1,25 @@
+<section itemscope itemtype="http://schema.org/Product" class="product-wrapper r fh fjs">
+  
+  {% render 'product-gallery', product: product %}
+  {% render 'product-info', product: product %}
+  
+</section>
+
+{% render 'product-value-props', product: product  %}
+{% render 'product-key-ingredients', product: product  %}
+{% if product.price > 0 %}
+	{% section 'section-comparison' %}
+{% endif %}
+{% render 'product-testimonials', product: product  %}
+{%comment%}sections rendered only on right template{%endcomment%}
+{% section 'product-amplid-editorial' %}
+{% section 'product-kit-steps' %}
+
+{% unless product.metafields.accentuate.hide_reviews == 'true' %}
+	<div id="yotpo-review-wrapper" class="p4">
+  	<p class="t-h3 mt2">Customer<br>reviews</p>
+  	{% render 'yotpo-reviews', product: product %}
+	</div>
+{% endunless %}
+
+{% render 'product-recommendations', product: product  %}

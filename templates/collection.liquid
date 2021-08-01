@@ -1,0 +1,18 @@
+<div id="collection-wrapper" class="p4 mt7">
+	
+	<div id="collection-grid" class="grid grid-center wl mc mt5">
+		<div id="collection-header">
+			<h1 class="hidden">{{collection.title}}</h1>
+			{% if collection.description != blank %}
+				<h2 class="t-h3 wm">{{collection.description}}</h2>
+			{% endif %}
+		</div>
+
+		{% for product in collection.products %}
+			{% render 'product-card', product: product %}
+		{% endfor %}
+	</div>
+
+</div>
+
+{% section 'collection-footer' %}

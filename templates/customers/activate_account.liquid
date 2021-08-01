@@ -1,0 +1,19 @@
+<section id="account-content">
+<div class="mc wm">
+  <div id="active-form">
+  {% form 'activate_customer_password' %}
+    <h1>Activate Your account</h1>
+    <div class="field">
+      <label for="active-password">Password</label>
+      <input type="password" name="customer[password]" id="active-password">
+    </div>
+    <div class="field">
+      <label for="active-password-confirm">Confirm your passowrd</label>
+      <input type="password" name="customer[password_confirmation]" id="active-password-confirm">
+    </div>
+    {{ form.errors | default_errors }}
+    <input class="btn" type="submit" value="Activate your account">
+  {% endform %}
+  </div>
+</div>
+</section>

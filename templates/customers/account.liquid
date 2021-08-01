@@ -1,0 +1,106 @@
+<section id="account-content">
+<div class="mc ws">
+  <h1 class="t-h3">Account Information</h1>
+  <div id="account-address">
+    {% if customer.default_address != nul %}
+      <p class="address">
+        <strong>{{ customer.name }}</strong> (default address)
+        {% if customer.default_address.company != '' %}
+          <br>{{ customer.default_address.company }}
+        {% endif %}
+        {% if customer.default_address.address1 != '' %}
+          <br>{{ customer.default_address.address1 }}
+        {% endif %}
+        {% if customer.default_address.address2 != '' %}
+          <br>{{ customer.default_address.address2 }}
+        {% endif %}
+        {% if customer.default_address.city != '' %}
+          {{ customer.default_address.city }}
+        {% endif %}
+        {% if customer.default_address.province_code != '' %}
+          ,&nbsp;{{ customer.default_address.province_code | upcase }}
+        {% endif %}
+        {% if customer.default_address.zip != '' %}
+          ,&nbsp;{{ customer.default_address.zip | upcase }}
+        {% endif %}
+        {% if customer.default_address.country != '' %}
+          <br>{{ customer.default_address.country }}
+        {% endif %}
+        {% if customer.default_address.phone != '' %}
+          <br>{{ customer.default_address.phone }}
+        {% endif %}
+      </p>
+    {% else %}
+      <p class="address">No default address.</p>
+    {% endif %}
+    <a href="/account/addresses" class="btn">Add Addresses</a>
+  </div>
+  <div id="account-orders">
+    <h2 class="t-h3 mb3">Your Orders</h2>
+    {% if customer.orders.size != 0 %}
+      <div id="account-orders-swipe">
+      {% paginate customer.orders by 20 %}
+        <ul id="account-orders-head" class="fh">
+          <li>Order</li>
+          <li>Date</li>
+          <li>Payment</li>
+          <li>Fulfillment</li>
+          <li>Total</li>
+        </ul>
+        {% for order in customer.orders %}
+          <div class="orders-list" data-url="{{ order.customer_url }}">
+            <ul class="fh">
+              <li>{{ order.name }}</li>
+              <li>{{ order.created_at | date: '%b %d, %y' }}</li>
+              <li>{{ order.financial_status_label }}</li>
+              <li>{{ order.fulfillment_status_label }}</li>
+              <li>{{ order.total_price | money }}</li>
+            </ul>
+            <div class="order-details">
+              {% for line_item in order.line_items %}
+                <div class="order-item fh">
+                  <span>{{ line_item.title }}</span>
+                  <span>{{ line_item.price | money }}</span>
+                  <span>x {{ line_item.quantity }}</span>
+                  <span>= {{ line_item.quantity | times: line_item.price | money }}</span>
+                </div>
+                {% if line_item.fulfillment.tracking_number %}
+                  {% assign tracking_url = line_item.fulfillment.tracking_url %}
+                  {% assign tracking_number = line_item.fulfillment.tracking_number %}
+                {% else %}
+                  {% assign tracking_url = empty %}
+                  {% assign tracking_number = empty %}
+                {% endif %}
+              {% endfor %}
+              <p class="order-info">
+                {% if tracking_number != empty %}
+                  Tracking Number: <a href="{{ tracking_url }}">{{ tracking_number }}</a><br>
+                {% endif %}
+                {% for discount in order.discounts %}
+                  Discount: {{ discount.code }} ({{ discount.savings | money }})<br>
+                {% endfor %}
+                {% for shipping_method in order.shipping_methods %}
+                  Shipping Method: {{ shipping_method.title }} ({{ shipping_method.price | money }})<br>
+                {% endfor %}
+                {% for tax_line in order.tax_lines %}
+                  Tax: {{ tax_line.title }} ({{ tax_line.price | money }})<br>
+                {% endfor %}
+                Total: {{ order.total_price | money }} {{ order.currency }}
+              </p>
+            </div>
+          </div>
+        {% endfor %}
+      {% endpaginate %}
+      </div>
+    {% else %}
+      <p>You haven't placed an order yet</p>
+    {% endif %}
+    <div id="account-subscriptions-link" class="mt3 btn yellow">
+      {% render 'paywhirl-customer-portal-link' %}
+    </div>
+  </div>
+  <a class="btn" href="/account/logout">Log Out</a>
+</div>
+</section>
+
+{% render 'paywhirl-customer-portal-frame' %}

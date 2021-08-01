@@ -1,0 +1,49 @@
+<section id="account-content">
+<div class="wm mc">
+  <div id="account-access-split" class="fh">
+    <div id="account-access-split-left">
+      <div id="login-form" class="expand">
+        <h3 class="mb4">Sign in</h3>
+        {% form 'customer_login' %}
+          <div class="field">
+            <input type="email" name="customer[email]" id="login-email"{% if form.errors contains 'email' %} class="error"{% endif %} autocorrect="off" autocapitalize="off">
+            <label for="login-email">Email</label>
+          </div>
+          {% if form.password_needed %}
+            <div class="field">
+              <input type="password" value="" name="customer[password]" id="login-password"{% if form.errors contains 'password' %} class="error"{% endif %}>
+              <label for="login-password">Password</label>
+            </div>
+          {% endif %}
+          <input type="submit" class="btn" value="Login">
+          {{ form.errors | default_errors }}
+        {% endform %}
+        <div id="login-form-footer">
+          <button id="recover-form-trigger" class="t-body">Forgot your password?</button>
+        </div>
+      </div>
+      <div id="recover-form">
+        <p class="t-h3 mb3">Recover Password</p>
+        {% form 'recover_customer_password' %}
+          <div class="field">
+            <input type="email" value="" size="30" name="email" id="recover-email">
+            <label for="recover-email">Email Address</label>
+          </div>
+          <input type="submit" class="btn btn-primary" value="Submit">
+          <p><br>We will send you an email to reset your password.</p>
+          {{ form.errors | default_errors }}
+        {% endform %}
+      </div>
+    </div>
+    <div id="account-access-split-right">
+      <h3 class="mb4">Create an account</h3>
+      <p >Create an account to track orders, manage your profile, and make the checkout process a breeze.</p>
+      <a class="btn" href="/account/register">Create Account</a>
+    </div>
+  </div>
+</div>
+  <script>
+    const login_form = document.getElementById('customer_login');
+    analytics.trackForm(login_form,"Sign In");
+  </script>
+</section>
