@@ -1,0 +1,92 @@
+{% schema %}
+{
+  "name": "Hero",
+  "class": "section-blog-hero",
+  "tag": "section",
+  "settings": [
+    {
+     "type": "header",
+     "content": "Text Settings"
+    },
+    {
+      "id": "intro_text",
+      "type": "text",
+      "label": "Intro",
+      "default": "D.VELOP LATEST POSTS"
+    },
+    {
+      "id": "headline",
+      "type": "richtext",
+      "label": "Headline",
+      "default": "<p>The <strong>science</strong> and team behind d.velop™</p>",
+      "info": "Bold characters will be displayed in peach"
+    },
+    {
+      "id": "paragraph",
+      "type": "richtext",
+      "label": "Paragraph",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec accumsan est. Mauris ornare cursus pharetra. Phasellus ornare leo sit amet felis vestibulum venenatis. Donec finibus felis ac sapien aliquam, et lacinia est vehicula.</p>"
+    },
+    {
+      "id": "cta",
+      "type": "text",
+      "label": "Search CTA",
+      "default": "Filter d.velop articles"
+    },
+    {
+     "type": "header",
+     "content": "Image Settings"
+    },
+    {
+      "id": "image",
+      "type": "image_picker", 
+      "label": "Featured Image"
+    },
+    {
+      "id": "alt",
+      "type": "text", 
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% comment %} TEXT {% endcomment %}
+{% assign intro_text = section.settings.intro_text %}
+{% assign headline = section.settings.headline %}
+{% assign paragraph = section.settings.paragraph %}
+{% assign cta = section.settings.cta %}
+{% comment %} IMAGE {% endcomment %}
+{% assign image = section.settings.image %}
+{% assign alt = section.settings.alt %}
+
+<div id="blog-hero" class="wxl r p4 pb6 mb6">
+
+ {% if image != blank %}
+    <picture id="blog-hero-image" class="ani-anchor contain">
+      <source media="(min-width: 1600px)" srcset="{{ image | img_url:'master' }}">
+      <source media="(min-width: 1200px)" srcset="{{ image | img_url:'2400x' }}">
+      <source media="(min-width: 900px)" srcset="{{ image | img_url:'1800x' }}">
+      <source media="(min-width: 0px)" srcset="{{ image | img_url:'900x' }}">
+      <img class="lazy" data-src="{{image | img_url: '2000x'}}"alt="{{alt}}">
+    </picture>
+  {% endif %}
+
+
+  <div id="blog-hero-text" class="wm ani-anchor">
+    {% if intro_text != blank %}<p class="mb4 t-label-wide">{{intro_text | newline_to_br}}</p>{% endif %}
+
+    {% if headline != blank %}
+      <h1 id="blog-hero-headline" class="t-h1 mb3">{{headline | newline_to_br}}</h1>
+    {% endif %}
+
+    {% if paragraph != blank %}<div id="blog-hero-text" class="t-body mb4">{{paragraph | newline_to_br }}</div>{% endif %}
+
+    {% if cta != blank %}
+      {% render 'search-blog', cta: cta %}
+    {% endif %}
+  </div>
+
+</div>

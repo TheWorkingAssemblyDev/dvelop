@@ -1,0 +1,77 @@
+{% schema %}
+{
+  "name": "Hero",
+  "class": "section-editorial landing-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    },
+    {
+     "type": "header",
+     "content": "General Settings"
+    },
+    {
+      "id": "background_color",
+      "type": "color",
+      "label": "Background Color",
+      "default": "#FFFFFF",
+      "info": "For designer use only"
+    },
+    {
+      "id": "product",
+      "type": "product", 
+      "label": "Featured Product"
+    },
+    {
+      "id": "header",
+      "type": "text", 
+      "label": "Hero Title Text",
+      "default": "Vitamin D times three"
+    },
+    {
+      "id": "description",
+      "type": "richtext", 
+      "label": "Hero Sub Copy",
+      "default": "<p>Most of us do not get enough vitamin D from diet and sunlight alone to provide optimal immune health. Only d.velop™ vitamin D is made with calcifediol which is absorbed directly into your bloodstream. This means it’s 3x faster at increasing your vitamin D levels and 3x more effective than conventional vitamin D, helping you meet your health and immunity goals when taken twice daily (2400 IU, 20 mcg).*†</p>"
+    },
+	{
+      "id": "link",
+      "type": "url", 
+      "label": "Second Button URL"
+    },
+    {
+     "type": "header",
+     "content": "Image Settings"
+    },
+    {
+      "id": "image",
+      "type": "image_picker", 
+      "label": "Featured Image"
+    },
+    {
+      "id": "mobile_image",
+      "type": "image_picker", 
+      "label": "Mobile Image"
+    },
+    {
+      "id": "alt",
+      "type": "text", 
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    },
+    {
+      "id": "image_zoom",
+      "type": "checkbox",
+      "label": "Zoom the mobile image?",
+      "info": "Should the mobile image be zoomed in, slightly overlapping the text?",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-landing-product-6', section: section %}

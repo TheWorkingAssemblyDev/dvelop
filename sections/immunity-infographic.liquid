@@ -1,0 +1,29 @@
+{% schema %}
+{
+  "name": "Infographic",
+  "class": "section-infographic bg-white",
+  "tag": "section",
+  "settings": [    
+    {
+      "id": "media",
+      "type": "image_picker", 
+      "label": "Infographic"
+    },
+    {
+      "id": "alt",
+      "type": "text", 
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    }
+  ]
+}
+{% endschema %}
+
+{% assign media = section.settings.media %}
+{% assign alt = section.settings.alt %}
+
+{% if media != blank %}
+  <div id="immunity-infographic-wrapper" class="p4 ml mc contain">
+    <img class="" src="{{media | img_url: 'master'}}" alt="{{alt}}">
+  </div>
+{% endif %}

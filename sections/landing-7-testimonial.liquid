@@ -1,0 +1,52 @@
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "section-testimonials bg-yellow",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    },
+    {
+      "id": "heading",
+      "type": "text", 
+      "label": "Heading",
+      "default": "Supercharged and feeling good"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker", 
+          "label": "Image",
+          "info": "Remember to compress your images!"
+        },
+        {
+          "id": "review",
+          "type": "textarea",
+          "label": "Review"
+        },
+        {
+          "id": "name",
+          "type": "text",
+          "label": "Name"
+        },
+        {
+          "id": "occupation",
+          "type": "text",
+          "label": "Occupation"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-landing-testimonials', section: section %}

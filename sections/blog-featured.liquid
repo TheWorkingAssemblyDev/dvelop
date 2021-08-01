@@ -1,0 +1,61 @@
+{% schema %}
+{
+  "name": "Featured Articles",
+  "class": "section-blog-featured",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Featured Articles:",
+      "info": "Select at least 4 articles to render this section"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Featured Article",
+      "type": "headline",
+      "settings": [
+        {
+          "id": "article",
+          "type": "article",
+          "label": "Featured Article"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% assign headline = section.settings.headline %}
+
+{% if section.blocks.size >= 4 %}
+
+<section id="blog-featured" class="animate">
+
+    <div id="blog-featured-slider" class="r p4 pb4 slider-wrapper">
+
+      <div id="blog-featured-top" class="fh fe mb3 ani-anchor">
+
+        {% if headline != blank %}
+          <h2 id="blog-featured-headline" class="t-h3">{{headline | newline_to_br}}</h2>
+        {% endif %}
+
+        <button aria-label="Slide to Next Article" class="btn-next">{% render 'svg-arrow-right' %}</button>
+
+      </div>
+
+      
+      <div class="slider no-dots left">
+        {% for block in section.blocks %}
+          {% assign article = articles[block.settings.article] %}
+          {% render 'article-card', article: article, class: "slide featured", lazy: true %}
+        {% endfor %}
+      </div>
+
+    </div>
+
+</section>
+
+{% endif %}

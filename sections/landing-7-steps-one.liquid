@@ -1,0 +1,53 @@
+{% schema %}
+{
+  "name": "Steps One",
+  "class": "section-steps",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    },
+	{
+      "id": "header",
+      "type": "text", 
+      "label": "Section Header",
+      "default": "Understand and optimize your immune health"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Step-one",
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker", 
+          "label": "Step One Image",
+          "info": "Remember to compress your images!"
+        },
+        {
+          "id": "alt",
+          "type": "text", 
+          "label": "Step One Image Alt Text",
+          "info": "For SEO and ADA compliance"
+        },
+        {
+          "id": "heading",
+          "type": "textarea",
+          "label": "Step One Heading"
+        },
+		{
+          "id": "text",
+          "type": "textarea",
+          "label": "Step One Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-landing-steps-6', section: section %}

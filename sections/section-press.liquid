@@ -1,0 +1,64 @@
+{% schema %}
+{
+  "name": "Press",
+  "class": "section-press",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    },
+    {
+      "id": "headline",
+      "type": "text", 
+      "label": "Headline",
+      "default": "As seen in:"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Press",
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker", 
+          "label": "Press Logo",
+          "info": "Remember to compress your images!"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% unless section.settings.hide == true %}
+
+{% assign headline = section.settings.headline %}
+
+  <div class="press-wrapper tc">
+    {% if headline != blank %}
+      <p class="t-h3 tc">{{headline}}</p>
+    {% endif %}
+    <div class="press-items mt5 fh fw fjc">
+
+      {% for block in section.blocks %}
+        {% assign image = block.settings.image %}
+        {% assign alt = 'Press logo' %}
+
+        <div class="press-item p1 mc fv ani-anchor">
+          {% if image != blank %}
+            <picture class="press-item-image contain">
+              <img class="lazy" data-src="{{image | img_url: '400x'}}" alt="{{alt}}">
+            </picture>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+{% endunless %}

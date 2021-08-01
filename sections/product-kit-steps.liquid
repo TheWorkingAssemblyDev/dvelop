@@ -1,0 +1,62 @@
+{% schema %}
+{
+  "name": "Diagnostic Kit Steps",
+  "class": "section-diagnostic-kit-steps bg-tan sticky-scroll-wrapper",
+  "max_blocks": 6,
+  "tag": "section",
+  "settings": [
+    {
+      "id": "headline",
+      "type": "textarea", 
+      "label": "Headline",
+      "default": "Test your vitamin D levels before and after"
+    },
+    {
+      "id": "image",
+      "type": "image_picker", 
+      "label": "Featured Image"
+    },
+    {
+      "id": "video_url",
+      "type": "text", 
+      "label": "Video URL",
+      "info": "Enter the URL for a video. You can upload videos in Settings > Files. This will overwrite any uploaded image content."
+    },
+    {
+      "id": "alt",
+      "type": "text",
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "id": "value_header",
+          "type": "text",
+          "label": "Header"
+        },
+        {
+          "id": "value_subheader",
+          "type": "text",
+          "label": "Subheader"
+        },
+        {
+          "id": "value_text",
+          "type": "textarea",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% if product.handle contains 'diagnostic-kit' %}
+
+  {% render 'comp-sticky-scroll', section: section  %}
+
+{% endif %}

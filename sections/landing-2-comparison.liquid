@@ -1,0 +1,46 @@
+{% schema %}
+{
+  "name": "Comparison",
+  "class": "section-comparison bg-tan-light",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    },
+    {
+      "id": "heading",
+      "type": "text", 
+      "label": "Heading",
+      "default": "How d.velop is different"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Item",
+      "settings": [
+        {
+          "id": "attribute",
+          "type": "text", 
+          "label": "Attribute"
+        },
+        {
+          "id": "brand_text",
+          "type": "textarea", 
+          "label": "d.velop Difference"
+        },
+        {
+          "id": "others_text",
+          "type": "textarea", 
+          "label": "Other Brands"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-comparison', section: section %}

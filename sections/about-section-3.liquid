@@ -1,0 +1,140 @@
+{% schema %}
+{
+  "name": "Section 3",
+  "class": "section-editorial",
+  "tag": "section",
+  "settings": [
+    {
+     "type": "header",
+     "content": "General Settings"
+    },
+    {
+      "id": "background_color",
+      "type": "color",
+      "label": "Background Color",
+      "default": "#FFFFFF",
+      "info": "For designer use only"
+    },
+    {
+      "id": "layout",
+      "type": "select",
+      "options": [
+        { "value": "left", "label": "Image on Left"},
+        { "value": "right", "label": "Image on Right"}
+      ],
+      "label": "Layout"
+    },
+    {
+      "id": "image_position",
+      "type": "select",
+      "options": [
+        { "value": "centered", "label": "Centered"},
+        { "value": "cover", "label": "Cover"},
+        { "value": "full", "label": "Full Bleed"}
+      ],
+      "label": "Image Position",
+      "info": "For designer use only. May override the above layout"
+    },
+    {
+     "type": "header",
+     "content": "Text Settings"
+    },
+    {
+      "id": "text_width",
+      "type": "select",
+      "options": [
+        { "value": "wm", "label": "Large"},
+        { "value": "ws", "label": "Small"}
+      ],
+      "default": "ws",
+      "label": "Text Space",
+      "info": "How much space is the text allowed until breaking lines?"
+    },
+    {
+      "id": "headline",
+      "type": "textarea",
+      "label": "Headline",
+      "default": "Triple potency to supercharge immune health"
+    },
+    {
+      "id": "headline_size",
+      "type": "select",
+      "options": [
+        { "value": "t-h1", "label": "Large"},
+        { "value": "t-h3", "label": "Small"}
+      ],
+      "default": "t-h3",
+      "label": "Headline Size"
+    },
+    {
+      "id": "headline_center",
+      "type": "checkbox",
+      "label": "Center the headline?",
+      "info": "Should this headline be positioned above the rest of the content?",
+      "default": false
+    },
+    {
+      "id": "subline",
+      "type": "textarea",
+      "label": "Secondary Headline",
+      "default": "The diagnostic kit"
+    },
+    {
+      "id": "paragraph",
+      "type": "richtext",
+      "label": "Paragraph",
+      "default": "<p>Healthy vitamin D levels are essential for immune system resilience. When it comes to empowering your immune system, vitamin D is your secret weapon. Only d.velopTM products are made with ampli-D®, a new and clinically tested form of vitamin D3 that helps achieve optimal levels 3x faster and 3x more effectively than conventional vitamin D.*†</p>"
+    },
+    {
+      "id": "cta",
+      "type": "text",
+      "label": "Button CTA",
+      "default": "Learn More"
+    },
+    {
+      "id": "url",
+      "type": "url",
+      "label": "Button Link"
+    },
+    {
+      "id": "cta_color",
+      "type": "select",
+      "options": [
+        { "value": "white", "label": "White"},
+        { "value": "yellow", "label": "Yellow"}
+      ],
+      "label": "CTA Color",
+      "info": "For designer use only"
+    },
+    {
+     "type": "header",
+     "content": "Image Settings"
+    },
+    {
+      "id": "image",
+      "type": "image_picker", 
+      "label": "Featured Image"
+    },
+    {
+      "id": "mobile_image",
+      "type": "image_picker", 
+      "label": "Mobile Image"
+    },
+    {
+      "id": "alt",
+      "type": "text", 
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    },
+    {
+      "id": "image_zoom",
+      "type": "checkbox",
+      "label": "Zoom the mobile image?",
+      "info": "Should the mobile image be zoomed in, slightly overlapping the text?",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-editorial', section: section %}

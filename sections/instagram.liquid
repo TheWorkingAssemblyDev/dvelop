@@ -1,0 +1,20 @@
+{% schema %}
+{
+  "name": "Instagram Feed",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
+
+
+{% unless section.settings.hide == true %}
+
+  <div id="insta-feed"></div>
+
+{% endunless %}

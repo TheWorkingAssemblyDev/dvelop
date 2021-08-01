@@ -1,0 +1,99 @@
+{% schema %}
+{
+  "name": "Collection Footer",
+  "class": "section-collection-footer",
+  "tag": "section",
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Block",
+      "settings": [
+        {
+         "type": "header",
+         "content": "General Settings"
+        },
+        {
+          "id": "background_color",
+          "type": "color",
+          "label": "Background Color",
+          "default": "#FFFFFF",
+          "info": "For designer use only"
+        },
+        {
+         "type": "header",
+         "content": "Text Settings"
+        },
+        {
+          "id": "headline",
+          "type": "text",
+          "label": "Headline"
+        },
+        {
+          "id": "cta",
+          "type": "text",
+          "label": "Button CTA",
+          "default": "Learn More"
+        },
+        {
+          "id": "url",
+          "type": "url",
+          "label": "Button Link"
+        },
+        {
+         "type": "header",
+         "content": "Image Settings"
+        },
+        {
+          "id": "image",
+          "type": "image_picker", 
+          "label": "Featured Image"
+        },
+        {
+          "id": "mobile_image",
+          "type": "image_picker", 
+          "label": "Mobile Image"
+        },
+        {
+          "id": "alt",
+          "type": "text", 
+          "label": "Image Alt Text",
+          "info": "For SEO and ADA compliance"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div id="collection-footer" class="fh fs">
+  {% for block in section.blocks %}
+
+    {% assign background_color = block.settings.background_color %}
+    {% assign image = block.settings.image %}
+    {% assign mobile_image = block.settings.mobile_image %}
+    {% assign alt = block.settings.alt %}
+    {% assign headline = block.settings.headline %}
+    {% assign cta = block.settings.cta %}
+    {% assign url = block.settings.url %}
+
+    <div class="collection-footer-block p4 oh r" style="background-color: {{background_color}}">
+      <picture class="collection-footer-image cover abs-f ani-anchor">
+        <source media="(min-width: 900px)" srcset="{{ image | img_url:'1200x' }}">
+        {% if mobile_image != blank %}
+          <source media="(min-width: 0px)" srcset="{{ mobile_image | img_url:'900x' }}">
+        {% else %}
+          <source media="(min-width: 0px)" srcset="{{ image | img_url:'900x' }}">
+        {% endif %}
+        <img class="lazy" data-src="{{image | img_url: '2000x'}}"alt="{{alt}}">
+      </picture>
+      <div class="collection-footer-text">
+        {% if headline != blank %}<p class="t-h4 mb3">{{headline}}</p>{% endif %}
+        {% if cta != blank and url != blank %}
+          <a href="{{url}}" class="btn mt4 white">{{cta}}</a>
+        {% endif %}
+      </div>
+    </div>
+    
+  {% endfor %}
+</div>

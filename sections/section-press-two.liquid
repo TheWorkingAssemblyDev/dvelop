@@ -1,0 +1,74 @@
+{% schema %}
+{
+  "name": "Press v2",
+  "class": "section-press",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "hide",
+      "type": "checkbox", 
+      "label": "Hide this section?",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "list",
+      "name": "Press",
+      "settings": [
+        {
+          "id": "quote",
+          "type": "textarea",
+          "label": "Quote"
+        },
+        {
+          "id": "image",
+          "type": "image_picker", 
+          "label": "Press Logo",
+          "info": "Remember to compress your images!"
+        },
+        {
+          "id": "link",
+          "type": "url", 
+          "label": "Press Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% unless section.settings.hide == true %}
+
+  <div class="press-wrapper slider-wrapper tc">
+    <div class="press-items slider mt3 ani-anchor">
+
+      {% for block in section.blocks %}
+        {% assign image = block.settings.image %}
+        {% assign alt = 'Press logo' %}
+        {% assign quote = block.settings.quote %}
+        {% assign link = block.settings.link %}
+
+        <div class="press-item slide p4 mc fv">
+          {% if quote != blank %}
+            {% render 'svg-quote' %}
+            <p class="press-quote ws mc t-h4 mb3">{{quote}}</p>
+          {% endif %}
+
+          {% if image != blank and link != blank %}
+            <a href="{{link}}" class="press-item-image contain">
+              <img class="lazy" data-src="{{image | img_url: '200x'}}" alt="{{alt}}">
+            </a>
+          {% elsif image != blank %}
+            <picture class="press-item-image contain">
+              <img class="lazy" data-src="{{image | img_url: '200x'}}" alt="{{alt}}">
+            </picture>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+{% endunless %}

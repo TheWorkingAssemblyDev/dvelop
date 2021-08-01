@@ -1,0 +1,58 @@
+{% schema %}
+{
+  "name": "Our Values",
+  "class": "section-our-values bg-peach p6 sticky-scroll-wrapper",
+  "max_blocks": 6,
+  "tag": "section",
+  "settings": [
+    {
+      "id": "headline",
+      "type": "textarea", 
+      "label": "Headline",
+      "default": "Our values"
+    },
+    {
+      "id": "image",
+      "type": "image_picker", 
+      "label": "Featured Image"
+    },
+    {
+      "id": "alt",
+      "type": "text", 
+      "label": "Image Alt Text",
+      "info": "For SEO and ADA compliance"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "id": "index",
+          "type": "text",
+          "label": "Index",
+          "default": "01"
+        },
+        {
+          "id": "value_header",
+          "type": "text",
+          "label": "Header"
+        },
+        {
+          "id": "value_subheader",
+          "type": "text",
+          "label": "Subheader"
+        },
+        {
+          "id": "value_text",
+          "type": "textarea",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'comp-sticky-steps', section: section  %}

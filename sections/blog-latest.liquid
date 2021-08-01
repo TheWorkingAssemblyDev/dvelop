@@ -1,0 +1,58 @@
+{% schema %}
+{
+  "name": "Latest Articles",
+  "class": "section-blog-latest",
+  "tag": "section",
+  "settings": [
+    {
+      "id": "headline",
+      "type": "text",
+      "label": "Headline",
+      "default": "Latest Articles:",
+      "info": "Select at least 4 articles to render this section"
+    },
+    {
+      "id": "blog",
+      "type": "blog",
+      "label": "Blog",
+      "info": "Select a blog from which to pull articles. It must have more than one article to render here."
+    }
+  ]
+}
+{% endschema %}
+
+
+{% assign headline = section.settings.headline %}
+{% assign blog = blogs[section.settings.blog] %}
+{% assign pagination = 6 %}
+
+
+{% if blog.articles.size > 1 %}
+
+<div id="blog-latest" class="r p4 pb4 blog-section" data-blog="{{blog.handle}}" data-page="1" data-pagination="{{pagination}}" data-size={{blog.articles.size}}>
+
+  {% if headline != blank %}
+    <h1 id="blog-latest-headline" class="t-h3 mb4 ani-anchor">{{headline | newline_to_br}}</h1>
+  {% endif %}
+
+
+  {% paginate blog.articles by pagination %}
+
+    <div class="blog-section-articles fh fjs fw">
+      {% for article in blog.articles %}
+        {% render 'article-card', article: article %}
+      {% endfor %}
+    </div>
+    
+    {% if paginate.next %}
+      <button id="paginate" class="mc3 btn yellow">Load more articles</button>
+    {% endif %}
+
+  {% endpaginate %}
+
+
+  
+
+</div>
+
+{% endif %}
