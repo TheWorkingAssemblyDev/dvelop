@@ -1,0 +1,80 @@
+{% include 'html-page-variables' %}
+
+<!doctype html>
+<html lang="en" id="{{ page_id }}" class="{{template.name}} {% if customer %}logged-in{% endif %}" data-cart-count="{{cart.item_count}}">
+
+  <head>{%- comment -%}smartseo_integration_begin{%- endcomment -%}{% include 'smartseo' %}{%- comment -%}smartseo_integration_end{%- endcomment -%}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="user-scalable=yes, width=device-width, initial-scale=1, maximum-scale=5">
+
+    {% render 'html-tracking-scripts' %}
+    {% render 'html-meta' %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="icon" type="image/png" href="{{ 'favicon.png' | asset_url }}">
+    {{ content_for_header }}
+
+    <!-- on page load assets -->
+    {% capture html_init %}
+      {% include 'html-css-utilities' %}
+      {% include 'html-page-init' %}
+    {% endcapture %}
+    {{ html_init | strip_newlines | replace: '  ', '' }} 
+
+    {{ 'css-components.css' | asset_url | stylesheet_tag }}
+    {{ 'css-styles.css' | asset_url | stylesheet_tag }}
+
+  {% include 'dexter' %}
+
+  <meta name="facebook-domain-verification" content="dkferqwkvhh3j3a3nb85wfj57vqciv" />
+  <meta name="google-site-verification" content="42DQm6CS-VJdABq2W0q-dW_y9W9Dg-hm1OwJ1s8gnOM" />
+  <meta name="google-site-verification" content="Lz4eHmTIcq6W7AJHke9q1D_sI77J3jbE1PTSnz9uJ84" />
+
+</head>
+
+  <body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | handle }}">
+
+    {% include 'comp-navigation' %}
+
+    <div id="ie-message">
+
+      <script>
+        // detect if ie
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+          document.documentElement.classList.add('ie')
+        }
+      </script>
+
+      {% if settings.ie_message != blank %}
+        {{settings.ie_message}}
+      {% endif %}      
+
+    </div>
+
+    <main id="main" class="main-content">
+      {{ content_for_layout }}
+      {% if settings.disclaimers != blank %}
+        <section id="footer-disclaimers" class="pt6 p4 t-body-small">
+          <div class="ws">{{settings.disclaimers | newline_to_br}}</div>
+        </section>
+      {% endif %}
+    </main>
+    
+    {% render 'comp-footer' %}
+    {% render 'comp-cart' %}
+    {% render 'html-pixels' %}
+
+    <!-- internal -->
+    <script src="{{ 'js-scripts.js' | asset_url }}"></script>
+
+    {% render 'html-integrations' %}
+    {% render 'paywhirl-main' %}
+  
+<!-- **BEGIN** Hextom QAB Integration // Main Include - DO NOT MODIFY -->
+    {% render 'hextom_qab_main', product: product, customer: customer %}
+    <!-- **END** Hextom QAB Integration // Main Include - DO NOT MODIFY -->
+</body>
+</html>
