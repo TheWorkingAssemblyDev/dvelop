@@ -1,0 +1,40 @@
+{% if section %}
+  {% assign image = block.settings.image %}
+  {% assign image_src = image | img_url: '500x' %}
+  {% assign review = block.settings.review %}
+  {% assign name = block.settings.name %}
+  {% assign alt = name | append: ', reviewer' %}
+  {% assign occupation = block.settings.occupation %}
+{% elsif product %}
+  {% assign image = product.metafields.accentuate.testimonial_headshot[index][0] %}
+  {% assign image_src = image.cloudinary_src | append: 'w_500' %}
+  {% assign review = product.metafields.accentuate.testimonial_review[index] %}
+  {% assign name = product.metafields.accentuate.testimonial_name[index] %}
+  {% assign alt = name | append: ', reviewer' %}
+  {% assign occupation = product.metafields.accentuate.testimonial_occupation[index] %}
+{% else %}
+  {% break %}
+{% endif %}
+
+<div class="testimonial-item slide bg-tan-light p4 mc fv fjb ani-anchor">
+  <div class="testimonial-item-top">
+    {% if image != blank %}
+      <picture class="testimonial-item-image contain">
+        <img class="lazy" data-src="{{image_src}}" alt="{{alt}}">
+      </picture>
+    {% endif %}
+    {% if review != blank %}
+      {% render 'svg-quote' %}
+      <p class="testimonial-review tc mt1">{{review}}</p>
+    {% endif %}
+  </div>
+
+  <div class="testimonial-item-bottom">
+    {% render 'svg-stars' %}
+    {% if name != blank and occupation != blank %}
+      <p class="testimonial-name mt2"><strong>{{occupation}},<br></strong>{{name}}</p>
+    {% elsif name != blank %}
+      <p class="testimonial-name mt2">{{name}}</p>
+    {% endif %}
+  </div>
+</div>

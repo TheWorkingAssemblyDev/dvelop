@@ -1,0 +1,67 @@
+<script>
+	let email_signup = document.getElementById("email-signup-form");
+  	const email_optin = document.getElementById("k_id_email").value;
+
+  	analytics.trackForm(email_signup, "Newsletter Opt-in",{
+    	email: email_optin
+  });
+</script>
+  
+{% if customer %}
+<script>
+  analytics.identify({{ customer.id }},{
+		userId: "{{ customer.id }}",
+        email: "{{ customer.email }}",
+		first_name: "{{ customer.first_name }}",
+        last_name: "{{ customer.last_name }}"
+       });    
+</script>
+{% endif %}
+
+  
+{% if request.page_type == 'product' %}
+<script>
+  analytics.track("Product Viewed",{
+    product_id: "{{ product.id }}",
+    product_name: "{{ product.title }}",
+    product_handle: "{{ product.handle }}",
+    product_price: {{ product.price | money_without_currency}}
+  });
+    
+  analytics.track('Viewed Checkout Step', {
+  	step: 1 
+	});
+</script>
+ {% endif %}
+    
+{% if cart.item_count > 0 %}
+<script>
+	let initiate_checkout = document.getElementById("cart-checkout");
+    
+	initiate_checkout.onclick = function(){
+      analytics.track("Checkout Started",{
+        products: [
+		  {% for item in cart.items %}
+	      {
+        	item_product_id: "{{ item.product_id }}",
+            item_variant_id: "{{ item.variant_id }}",
+            item_variant_size: "{{ item.variant.option1 }}",
+            item_variant_option: "{{ item.variant.option2 }}",
+            item_variant_sku: "{{ item.sku }}",
+            item_price: {{ item.line_price | money_without_currency }},
+      		},
+      {% endfor %} 
+        ],
+        cart_item_count: {{cart.item_count}},
+        cart_subtotal_price: {{ cart.items_subtotal_price | money_without_currency}}
+      });
+		
+		analytics.track('Completed Checkout Step',{
+        	step:3
+      });
+      		analytics.track('Viewed Checkout Step',{
+        	step:4
+      });
+	};
+ </script>
+{% endif %}

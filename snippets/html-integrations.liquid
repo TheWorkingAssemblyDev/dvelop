@@ -1,0 +1,19 @@
+{%comment%} klaviyo onsite tracking js {%endcomment%}
+<script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=WSbsQW"></script>
+{%comment%} klaviyo legacy/custom form script {%endcomment%}
+<script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+{%comment%} klaviyo signup form listenter/config {%endcomment%}
+<script>
+	KlaviyoSubscribe.attachToForms('.klaviyo_signup', {
+		hide_form_on_success: false,
+   	success_message: "{{settings.newsletter_confirmation}}",
+	  extra_properties: {
+	    $source: 'Site'
+	  }
+	});
+</script>
+
+{%comment%} yotpo {%endcomment%}
+<script type="text/javascript">
+(function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/Kh8w9zRiQPLXVQ8LZn2fP8Ld8TEBFyAAJ6xhJyPv/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+</script>

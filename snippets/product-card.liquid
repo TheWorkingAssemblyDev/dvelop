@@ -1,0 +1,81 @@
+{%comment%}IMAGE CONTENT{%endcomment%}
+{% assign image = product.featured_image %}
+{% if image != blank %}
+	{% assign image = image | img_url: '600x' %}
+{% endif %}
+{% if product.metafields.accentuate.card_image[0] != blank %}
+	{% assign image = product.metafields.accentuate.card_image[0].cloudinary_src | append: 'w_600' %}
+{% endif %}
+{% if product.metafields.accentuate.card_hover_image[0] != blank %}
+	{% assign hover_image = product.metafields.accentuate.card_hover_image[0].cloudinary_src | append: 'w_600' %}
+{% endif %}
+
+{%comment%}TEXT CONTENT{%endcomment%}
+{% assign default_variant = product.variants[0] %}
+{% assign title = product.title %}
+{% assign price = default_variant.price | money %}
+{% assign description = product.description | truncate: 160 %}
+{% if product.metafields.accentuate.short_description != blank %}
+	{% assign description = product.metafields.accentuate.short_description | truncate: 160 %}
+{% endif %}
+{% assign hide_reviews = product.metafields.accentuate.hide_reviews %}
+
+
+{% if product.price > 0 %}
+	<div class="product-card ani-anchor {% if hover_image %}hoverable{% endif %} {% if class %}{{class}}{% endif %}">
+
+		{% if image != blank %}
+			<div class="product-card-image-wrapper r contain">
+				<img class="product-card-image lazy" data-src="{{image}}" alt="{{product.title | escape}}">
+				{% if hover_image != blank %}
+					<img class="product-card-hover-image abs-f lazy" data-src="{{hover_image}}" alt="{{product.title | escape}}">
+				{% endif %}
+			</div>
+			
+		{% endif %}
+
+		<div class="product-card-text p3">
+			<div class="product-card-text-main fh fs pt2 mb1 t-h5">
+				<a href="{{product.url}}" class="product-card-title">{{title}}</a>
+				<span class="product-card-price cr-teal-dark">{{price}}</span>
+			</div>
+
+			{% unless hide_reviews == 'true' %}
+				{% render 'yotpo-stars', product: product %}
+			{% endunless %}
+
+			{% if description != blank %}
+				<div class="product-card-description t-body-small">{{description}}</div>
+			{% endif %}
+		</div>
+
+		{% if product.available %}
+        <form id="product-form" class="product-form fh fc" action="/cart/add" method="post" enctype="multipart/form-data" onsubmit="">
+
+
+          <button type="submit" class="add-to-cart r btn yellow">Add to your cart</button>
+
+          <input class="item-quantity-input visually-hidden" min="1" type="number" id="quantity" name="quantity" value="1"/>
+
+          <input
+          checked="checked"
+          class="form-input hidden"
+          type="radio"
+          name="id"
+          data-product-id="{{product.id}}"
+          value="{{ default_variant.id }}"
+          data-handle="{{ default_variant.title | handle }}"
+          data-option1="{{ default_variant.option1 | handle }}"
+          data-option2="{{ default_variant.option2 | handle }}"
+          data-price="{{ default_variant.price | money_without_currency }}"
+          >
+          
+        </form>
+      {% else %}
+        <span class="t-body-large btn white-border disabled">Out of Stock</span>
+      {% endif %}
+
+	</div>
+{% endif %}
+
+

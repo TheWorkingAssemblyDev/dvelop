@@ -1,0 +1,16 @@
+{% assign recommended_products = product.metafields.accentuate.recommended_products | split: '|'%}
+{% assign size = recommended_products | size %}
+
+{% if size > 0 %}
+	<div id="product-recommendations" class="tc p4 mt7">
+		<p class="t-h4 ani-anchor">You might also like</p>
+		<div id="product-recommendations-grid" class="fh fs fjc fw mt5">
+			{% for lookup in recommended_products %}
+				{% assign product = all_products[lookup] %}
+				{% render 'product-card',
+				product: product,
+				class: 'fixed-width' %}
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}

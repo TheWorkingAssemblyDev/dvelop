@@ -1,0 +1,33 @@
+{% assign names_array = product.metafields.accentuate.key_ingredient_name %}
+{% assign size = names_array | size %}
+
+{% if product.metafields.accentuate.show_key_ingredients_section == 'true' %}
+
+	{% if size > 0 %}
+		<div id="key-ingredients" class="tc p4 slider-wrapper">
+			<p class="t-h3 mb4 ani-anchor">Key Ingredients</p>
+			<div id="key-ingredients-grid" class="slider slider-mobile fh fs fjc fw {% if size > 4 %}small{% endif %}">
+			{% for ingredient in names_array %}
+				{% assign i = forloop.index0 %}
+				{% if i == 9 %}{% break %}{% endif %}
+				{% assign name = names_array[i] %}
+				{% assign text = product.metafields.accentuate.key_ingredient_text[i] %}
+				{% assign color = '#eee' %}
+				{% if product.metafields.accentuate.key_ingredient_color[i] != blank %}
+					{% assign color = product.metafields.accentuate.key_ingredient_color[i] %}
+				{% endif %}
+
+				{% if name != blank  %}
+					<div class="key-ingredient ani-anchor slide">
+						<p class="key-ingredient-main mc fv fc fjc mb3 t-h5" style="background-color: {{color}}">{{name}}</p>
+						{% if text != blank %}<p class="key-ingredient-text">{{text}}</p>{% endif %}
+					</div>
+				{% endif %}
+
+			{% endfor %}
+			</div>
+
+		</div>
+	{% endif %}
+
+{% endif %}

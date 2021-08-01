@@ -1,0 +1,71 @@
+{% assign headline = section.settings.headline %}
+{% assign image = section.settings.image %}
+{% assign video_url = section.settings.video_url %}
+{% assign alt = section.settings.alt %}
+
+<div class="sticky-scroll-section fh fjc p6 desktop-only">
+  
+  <div class="sticky-scroll-container wxs ani-anchor">
+    {% if headline != blank %}<p class="sticky-scroll-header t-h5 mb5"><span>{{headline}}</span></p>{% endif %}
+    {% for block in section.blocks %}
+      {% assign header = block.settings.value_header %}
+      {% assign subheader = block.settings.value_subheader %}
+
+      {% if header != blank or subheader != blank %}
+        <div class="sticky-block-scroll" data-index="{{forloop.index}}">
+          {% if header != blank %}<p class="value-header t-h4 mb3">{{header}}</p>{% endif %}
+          {% if subheader != blank %}<p class="value-subheader t-h5">{{subheader}}</p>{% endif %}
+        </div>
+      {% endif %}
+
+    {% endfor %}
+  </div>
+  <div class="sticky-scroll-static ws ani-anchor">
+    
+    {% if video_url != blank %}
+    <div class="sticky-block-static-image fv fjc fc contain">
+      <video src="{{video_url}}" class="sticky-static-video" autoplay muted playsinline loop></video>
+    </div>
+  {% elsif image != blank %}
+    <div class="sticky-block-static-image wxs mc contain">
+      <img class="lazy" data-src="{{image | img_url: '600x'}}" alt="{{alt}}">
+    </div>
+  {% endif %}
+
+  </div>
+</div>
+
+<div class="sticky-scroll-section-mobile slider-wrapper mobile-only">
+  
+  {% if headline != blank %}<p class="t-h3 mc mb3 mt3 tc"><span>{{headline}}</span></p>{% endif %}
+
+  {% if video_url != blank %}
+    <div class="sticky-block-static-image fv fjc fc mc contain">
+      <video src="{{video_url}}" class="sticky-static-video" autoplay muted playsinline loop></video>
+    </div>
+  {% elsif image != blank %}
+    <div class="sticky-block-static-image wxs mc contain">
+      <img class="lazy" data-src="{{image | img_url: '600x'}}" alt="{{alt}}">
+    </div>
+  {% endif %}
+
+  <div class="sticky-scroll-slider slider w">
+    
+    {% for block in section.blocks %}
+      {% assign header = block.settings.value_header %}
+      {% assign subheader = block.settings.value_subheader %}
+      {% assign text = block.settings.value_text %}
+
+      {% if header != blank or subheader != blank %}
+        <div class="sticky-scroll-slide slide tc w">
+          <div class="sticky-scroll-slide-inner fv fjc fc wxs mc pr3 pl3">
+            {% if header != blank %}<p class="t-h5 mt3">{{header}}</p>{% endif %}
+            {% if subheader != blank %}<p class="t-h5 mb3">{{subheader}}</p>{% endif %}
+            {% if text != blank %}<p class="mb2">{{text}}</p>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+    {% endfor %}
+  </div>
+</div>

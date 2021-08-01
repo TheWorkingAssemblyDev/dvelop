@@ -1,0 +1,87 @@
+{% assign meta_type = 'website' %}
+{% assign og_image = 'default' %}
+{% assign og_image_secure = 'default' %}
+
+{% if template.name contains 'product' %}
+  {% unless product.title %}
+    {% assign page_title = product.title %}
+  {% endunless %}
+  {% assign meta_type = 'product' %}
+  {% assign og_image = product.featured_image | img_url: '2048x2048' %}
+  {% assign og_image_secure = og_image | replace: '//cdn','https://cdn' %}
+  <meta property="product:price:amount" content="{{product.price_min | money | remove: '$' | strip}}"/>
+  <meta property="og:price:amount" content="{{product.price_min | money | remove: '$' | strip}}"/>
+  <meta property="product:price:currency" content="{{shop.currency}}"/>
+  <meta property="og:price:currency" content="{{shop.currency}}"/>
+  <meta property="product:brand" content="{{shop.name | strip}}"/>
+  <meta property="product:availability" content="in stock"/>
+{% elsif template.name contains 'collection' %}
+  {% unless collection.title %}
+    {% assign page_title = collection.title %}
+  {% endunless %}
+{% elsif template.name contains 'blog' %}
+  {% unless blog.title %}
+    {% assign page_title = blog.title %}
+  {% endunless %}
+{% elsif template.name contains 'article' %}
+  {% unless article.title %}
+    {% assign page_title = article.title %}
+  {% endunless %}
+  {% assign meta_type = 'article' %}
+  {% if article.image %}
+    {% assign og_image = article.image | img_url: '2048x2048' %}
+    {% assign og_image_secure = og_image | replace: '//cdn','https://cdn' %}
+  {% endif %}
+{% elsif template.name contains 'password' %}
+  {% assign page_title = 'Password' %}
+{% elsif template.name contains 'search' %}
+  {% assign page_title = 'Search' %}
+{% else %}
+  {% if template.name contains 'customers' %}
+    {% assign page_title = 'Account' %}
+  {% elsif template.name contains 'page' %}
+    {% unless page.title %}
+      {% assign page_title = page.title %}
+    {% endunless %}
+  {% endif %}
+{% endif %}
+
+{% comment %} append shop name to page title where necessary{% endcomment %}
+{% if template == '404' %}
+  {% assign meta_title = 'Page Not Found - ' | append: shop.name | strip %}
+{% elsif page_title != shop.name | strip %}
+  {% assign meta_title = page_title | append: ' - ' | append: shop.name | strip %}
+{% else %}
+  {% assign meta_title = page_title %}
+{% endif %}
+
+{% unless template == 'index' %}
+  <meta property="og:site_name" content="{{shop.name}}">
+  <meta property="og:title" content="{{ meta_title }}">
+  <meta property="og:type" content="{{ meta_type }}">
+  <meta property="og:url" content="{{ canonical_url }}"> 
+
+
+{% endunless %}
+
+{% if og_image != 'default' %}
+  <meta property="og:image" content="{{ og_image }}">
+  <meta property="og:image:type" content="image/jpeg" />
+  {% if og_image_secure != 'default' %}
+    <meta property="og:image:secure_url" content="{{ og_image_secure }}">
+  {% endif %}
+{% endif %}
+
+{% if page.description %}
+  <meta name="description" content="{{ page.description | truncate: 180 }}">
+  <meta property="og:description" content="{{ page.description | truncate: 180 }}">
+{% else %}
+  <meta name="description" content="{{ shop.description | truncate: 180 }}">
+  <meta property="og:description" content="{{ shop.description | truncate: 180 }}">
+{% endif %}
+
+{% unless page.title or page_title %}
+  {% assign page_title = shop.name | strip %}
+{% endunless %}
+
+<title>{{ meta_title }}</title>

@@ -1,0 +1,30 @@
+{% assign media = product.metafields.accentuate.ingredients_image[0] %}
+{% assign text = product.metafields.accentuate.ingredients_text %}
+
+{% if media != blank %}
+	{% if media.media_type == 'image' %}
+
+		{% capture html %}
+			<div id="ingredients-image" class="contain">
+				<img class="lazy" data-src="{{media.cloudinary_src | append: 'w_800'}}" alt="Nutrition label for {{product.title}}">
+			</div>
+			
+			{% if text != blank %}
+				<p id="ingredients-text" class="mt2">{{text}}</p>
+			{% endif %}
+		{% endcapture %}
+
+		<div id="product-ingredients">
+			{% render 'comp-accordion',
+			class: 'small mb3',
+			header: 'SEE INGREDIENTS',
+			text: html %}
+		</div>
+
+	{% elsif media.media_type == 'pdf'  %}
+
+		<a href="{{media.src}}" class="t-body-small mb3">See here for supplement facts and ingredients</a>
+
+	{% endif %}
+
+{% endif %}

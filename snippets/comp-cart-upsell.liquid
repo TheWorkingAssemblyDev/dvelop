@@ -1,0 +1,49 @@
+{% assign upsell_product = all_products[settings.upsell_product] %}
+{% assign upsell_product_variant = upsell_product.variants[0] %}
+{% assign upsell_cta = settings.upsell_cta %}
+{% assign upsell_img = upsell_product.featured_image %}
+
+
+{% if upsell_product != blank %}
+
+  <div id="cart-upsell" data-variant-id="{{upsell_product.id}}">
+
+    
+    {% if upsell_cta != blank %}<p class="t-body-bold mb3">{{upsell_cta}}</p>{% endif %}
+    
+    <div class="fh fjs">
+
+      {% if upsell_img != blank %}
+      <div id="cart-upsell-image" class="item-image cover">
+        <img src="{{upsell_img | img_url: '250x'}}" alt="{{product.title}}">
+      </div>
+      {% endif %}
+  			
+    	<div class="fv ml3">
+
+        <p id="cart-upsell-title" class="item-title t-body-large">{{upsell_product.title}}</p>
+        <p class="item-price t-body mb1">{{ upsell_product_variant.price | money }}</p>
+    		
+    		<form class="product-form" action="/cart/add" method="post" enctype="multipart/form-data">
+          <input id="cart-upsell-button" class="btn yellow add-to-cart" type="submit" value="Add to Cart"/>
+          	<input
+          	checked="checked"
+          	class="form-input hidden"
+          	type="radio"
+          	name="id"
+          	data-product-id="{{upsell_product.id}}"
+          	value="{{ upsell_product_variant.id }}"
+          	data-handle="{{ upsell_product_variant.title | handle }}"
+          	data-option1="{{upsell_product_variant.option1 | handle}}"
+          	data-option2="{{upsell_product_variant.option2 | handle}}"
+          	data-price="{{ upsell_product_variant.price | money_without_currency }}"
+          />
+        </form>
+
+    	</div>
+
+    </div>
+
+  </div>
+
+{% endif %}

@@ -1,0 +1,44 @@
+{% unless section.settings.hide == true %}
+
+  {% assign heading = section.settings.heading %}
+
+  <div class="comparison-wrapper wl mc p4">
+    <p class="comparison-header t-h3 p6 tc wm mc ani-anchor">{{heading}}</p>
+    <div class="comparison-items fh fjc fs fw mb6">
+
+      <div class="comparison-items-title w fh fc mb3 p2 ani-anchor">
+        <div class="comparison-attribute"></div>
+        <div class="comparison-column contain">{% render 'svg-logo' %}</div>
+        <p class="comparison-column t-h4">Others</p>
+      </div>
+      {% for block in section.blocks %}
+        {% assign attribute = block.settings.attribute %}
+        {% assign brand_text = block.settings.brand_text %}
+        {% assign others_text = block.settings.others_text %}
+        <div class="comparison-item w fh fc p2 ani-anchor">
+          {% if attribute != blank %}
+            <p class="comparison-attribute t-h5">{{attribute}}</p>
+          {% endif %}
+          {% if brand_text != blank %}
+            <div class="comparison-column comparison-brand fh fc fjs">
+              <div class="comparison-item-icon contain">
+                {% render 'svg-icon-check' %}
+              </div>
+              <p class="comparison-brand-text">{{brand_text}}</p>
+            </div>
+          {% endif %}
+          {% if others_text != blank %}
+            <div class="comparison-column comparison-others fh fc fjs">
+              <div class="comparison-item-icon contain">
+                {% render 'svg-icon-x' %}
+              </div>
+              <p class="comparison-others-text">{{others_text}}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  
+{% endunless %}

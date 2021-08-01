@@ -1,0 +1,13 @@
+{% assign apple_link = product.metafields.accentuate.apple_store_link %}
+{% assign google_link = product.metafields.accentuate.google_store_link %}
+
+{% if product.metafields.accentuate.show_app_links %}
+  <div id="app-store-buttons" class="fh">
+    <a href="{{apple_link}}" aria-label="Download the app via the Apple Store" class="contain mr3">
+      <img src="{{'icon-apple-store.png' | asset_url}}" alt="Download the app via the Google Store">
+    </a>
+    <a href="{{google_link}}" aria-label="Download the app via the Google Store" class="contain">
+      <img src="{{'icon-google-store.png' | asset_url}}" alt="Download the app via the Google Store">
+    </a>
+  </div>
+{% endif %}

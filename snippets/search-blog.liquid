@@ -1,0 +1,9 @@
+ <form id="blog-search" class="ws r fh fc fjb {{class}}" action="/search" method="get">
+  <input type="hidden" name="type" value="article">
+  <input type="hidden" name="view" value="articles">
+  <input class="search-input" name="q" type="text" placeholder="{{cta}}" value="">
+  <div class="search-enter">
+    <input type="submit">
+    {% render 'svg-btn-next' %}
+  </div>
+</form>

@@ -1,0 +1,78 @@
+{% for item in cart.items %}
+	{% assign item_product = item.product %}
+	{% assign item_product_handle = item_product.handle %}
+	{% assign item_title = item.title | split: ' - ' | first %}
+	{% assign item_variant = item.title | split: ' - ' | last %}
+	{% assign item_variant_options = item_variant | split: ' / ' %}
+	{% assign item_variant_option1 = item_variant_options[0] %}
+	{% assign item_variant_option2 = item_variant_options[1] %}
+	{% assign item_variant_option3 = item_variant_options[2] %}
+	{% assign product_image = item | img_url: '400x' %}
+	{% assign preorder_text = item_product.metafields.accentuate.preorder_text %}
+
+	{% comment %}
+	manually collection for products that are eligible for the complementary diagnostic kit (when part of a subscription).
+	{% endcomment %}
+	{% assign offer_kit = false %}
+	{% for collection in item.product.collections %}
+	  {% assign collection_handle = collection.title | handle %}
+	  {% if collection_handle contains 'eligible-for-diagnostic-kit' %}
+	    {% assign offer_kit = true %}
+	    {% break %}
+	  {% endif %}
+	{% endfor %}
+
+	{% assign selling_plan = false %}
+	{% if item.selling_plan_allocation.selling_plan.group_id != blank %}
+		{% assign selling_plan = item.selling_plan_allocation.selling_plan.group_id %}
+	{% endif %}
+
+	<div 
+		class="cart-item fh fs fjs"
+		data-item-product-id="{{ item.product.id }}"
+		data-item-variant-id="{{ item.id }}"
+		data-item-line="{{forloop.index}}"
+		data-item-price="{{ item.price | money_without_currency }}"
+		data-item-quantity="{{ item.quantity}}"
+		data-item-max-inventory="{{ item.variant.inventory_quantity }}"
+		data-selling-plan="{{selling_plan}}"
+		data-kit-offer="{{offer_kit}}"
+		>
+		
+		<a href="{{item.url}}" class="item-image cover">
+			<img src="{{product_image}}" alt="{{item_title}} with a link to its product page">
+		</a>
+
+		<div class="item-info t-h6 fv fjc">
+			
+			<div class="fh">
+				<a href="{{item.url}}" class="item-title mr2">{{item_title}}</a>
+				<button type="button" aria-label="Remove item" class="item-remove t-body-small caps">Remove</button>
+			</div>
+
+			{% if item.price == 0 %}
+				<p class="item-price t-body caps">Free</p>
+			{% else %}
+				<p class="item-price t-body">{{ item.price | money }}</p>
+			{% endif %}
+
+			{% if preorder_text %}
+				<p class="preorder-text t-body-small">{{preorder_text}}</p>
+			{% endif %}
+
+			{% render 'paywhirl-subscriptions-cart-selling-plans', item: item %}
+
+			{% unless item_product_handle == 'diagnostic-kit' %}
+				<div class="item-controls fh mt2">
+					<div class="item-quantity t-label fh fc">
+		        <button type="button" aria-label="Decrement Quantity" class="btn yellow btn-quantity decrement mr1"><span>-</span></button>
+		        <span class="btn bg-yellow-light item-quantity-label">{{item.quantity}}</span>
+		        <button type="button" aria-label="Increment Quantity" class="btn yellow btn-quantity increment ml1"><span>+</span></button>
+		      </div>
+		    </div>
+	    {% endunless %}
+
+		</div>
+
+	</div>
+{% endfor %}

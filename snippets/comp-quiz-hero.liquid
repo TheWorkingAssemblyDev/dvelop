@@ -1,0 +1,60 @@
+{% unless section.settings.hide == true %}
+
+  {% assign heading = section.settings.title %}
+  {% assign description = section.settings.page_copy %}
+
+<div class="quiz-wrapper">
+    <div class="quiz-section" id="lc">
+      <h2 class="quiz-header t-h1 ani-anchor">{{ heading }}</h2>
+      <p class="quiz-copy">{{ description }}</p> 	
+    </div>
+    <div id="rc">
+      <div class="octane-ai-quiz " data-quiz-id="WnYatFtzTK8nqscB" data-embed-type="fullpage" data-mobile-height="match_browser" data-desktop-height="match_browser"></div>
+      <script src="https://app.octaneai.com/taiotoea3cl0tf1n/quiz.js" async defer>
+      </script>
+    </div>
+  </div>
+    
+<style>
+  .quiz-wrapper{
+    margin:auto;
+    display: flex;
+    text-align: left;
+    width: 80%;
+	justify-content: center;
+    align-items: center;
+  }
+	
+  #lc, #rc {
+    padding-left:4%;
+    padding-right:4%;
+    padding-bottom:4%;
+  	display: inline-block;
+  }
+  
+  #rc{
+    padding-top: 100px;
+  }
+  
+  
+  #step-heading {
+    font-size:1.25em;
+    font-weight:700;
+  }
+  @media (max-width: 600px) {
+  .quiz-wrapper {
+        flex-wrap:wrap;
+    width: 100%;
+  }
+  .quiz-section{
+  	padding-top:80px;
+  }
+  #rc {
+    padding-top:0px;
+    padding-bottom:0px;
+  }
+}
+
+
+</style>
+{% endunless %}

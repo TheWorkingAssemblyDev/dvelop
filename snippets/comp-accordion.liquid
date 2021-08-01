@@ -1,0 +1,10 @@
+{% if header != blank and text != blank %}
+	<div class="accordion-item oh {% if class != blank %}{{class}}{% endif %}">
+	  <button class="accordion-toggle w" aria-label="Toggle accordion">
+	    <p class="accordion-header t-h5">{{header}}</p>
+	  </button>
+	  <div class="accordion-text w90 oh">
+	    <div class="pt1">{{text}}</div>
+	  </div>
+	</div>
+{% endif %}

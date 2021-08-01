@@ -1,0 +1,25 @@
+{% if template == 'index' %}
+	{% assign page_id = 'frontpage' %}
+{% elsif template.name contains 'collection' %}
+	{% assign page_id = 'product-index' %}
+{% elsif template.name contains 'product' %}
+	{% assign page_id = 'product-single' %}
+	{% elsif template.name contains 'search' %}
+	{% assign page_id = 'search' %}
+{% elsif template.name == 'blog' %}
+	{% assign page_id = 'blog-index' %}
+{% elsif template.name contains 'article' %}
+	{% assign page_id = 'blog-single' %}
+{% elsif template.name == 'page' %}
+	{% assign page_id = 'page-' | append: page.handle %}
+{% elsif template.name == 'cart' %}
+	{% assign page_id = 'cart' %}
+{% elsif template contains 'customers' %}
+	{% assign page_id = 'accounts' %}
+{% elsif template == '404' %}
+	{% assign page_id = 'error404' %}
+{% elsif template contains 'password' %}
+	{% assign page_id = 'password' %}
+{% else %}
+	{% assign page_id = 'page' %}
+{% endif %}

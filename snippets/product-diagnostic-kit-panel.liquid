@@ -1,0 +1,27 @@
+{% assign text = product.metafields.accentuate.kit_text %}
+{% assign image = product.metafields.accentuate.kit_image | first %}
+{% assign text_subscription = product.metafields.accentuate.kit_subscription_text %}
+{% assign cta = product.metafields.accentuate.kit_cta %}
+
+{% if text != blank %}
+<div id="diagnostic-kit-panel" class="product-panel bg-yellow-light p3">
+
+	<div id="diagnostic-kit-panel-top" class="fh">
+		{% if text != blank %}<div class="mr4">{{text}}</div>{% endif %}
+		{% if image != blank %}
+			<div id="diagnostic-kit-panel-image" class="panel-image cover">
+				<img class="lazy" data-src="{{image.cloudinary_src | append: 'w_200'}}" alt="Diagnostic Kit thumbnail">
+			</div>
+		{% endif %}	
+	</div>
+	
+
+		<div id="diagnostic-kit-panel-bottom" class="fh mt3">
+			{% if text_subscription != blank %}<div>{{text_subscription}}</div>{% endif %}
+			{% if cta != blank %}
+				<a href="/products/ampli-d" class="btn yellow">{{cta}}</a>
+			{% endif %}
+		</div>
+	
+</div>
+{% endif %}

@@ -1,0 +1,143 @@
+{% assign product_id = product.id %}
+{% assign product_item = cart.items | where: 'product_id', product_id | first %}
+
+{% assign in_cart = false %}
+{% assign product_quantity = 0 %}
+{% if product_item != blank %}
+  {% assign product_quantity = product_item.quantity %}
+{% endif %}
+{% if product_quantity > 0 %}
+  {% assign in_cart = true %}
+{% endif %}
+
+{% assign default_variant = product.variants[0] %}
+{% assign handle = product.handle %}
+{% assign title = product.title %}
+{% if product.metafields.accentuate.product_title_alt != blank %}
+  {% assign title = product.metafields.accentuate.product_title_alt %}
+{% endif %}
+{% assign preorder_text = product.metafields.accentuate.preorder_text %}
+
+{% assign default_price = default_variant.price %}
+{% assign hide_reviews = product.metafields.accentuate.hide_reviews %}
+
+{% assign subscribe = false %}
+{% assign subscription_title = product.selling_plan_groups[0].name %}
+{% if subscription_title != blank %}
+  {% assign subscribe = true %}
+{% endif %}
+
+{% comment %}
+manually collection for products that are eligible for the complementary diagnostic kit (when part of a subscription).
+{% endcomment %}
+{% assign offer_kit = false %}
+{% for collection in product.collections %}
+  {% if collection.handle contains 'eligible-for-diagnostic-kit' %}
+    {% assign offer_kit = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<div id="product-info" class="fv p4"
+  data-item-variant-id="{{ default_variant.id }}"
+  data-item-price="{{ default_price | money_without_currency }}"
+  data-item-quantity="{{ product_quantity }}"
+  data-item-max-inventory="{{ default_variant.inventory_quantity }}"
+  data-kit-offer="{{offer_kit}}"
+  data-subscribe="{{subscribe}}">
+    
+  <h1 itemprop="name" id="product-title" class="t-h3 mb1">{{title}}</h1>
+  
+  {% unless product.price == 0 %}
+  
+    {% unless hide_reviews == 'true' %}
+      {% render 'yotpo-stars', product: product %}
+    {% endunless %}
+
+    <p class="product__price t-h5"><span class="product__current-price">{{ default_price | money }}</span></p>
+
+  {% endunless %}    
+
+  {% if product.description != blank %}
+    <div id="product-description" class="mb3 mt3" itemprop="description">{{product.description}}</div>
+  {% endif %}
+
+  {% render 'product-ingredients', product: product  %}
+  {% render 'product-diagnostic-kit-panel', product: product  %}
+
+  {% if subscribe %}
+    <div id="subscription-toggle" class="toggle toggle-wrapper mb1">
+      <button id="toggle-button-subscribe" class="toggle-button active">3-month Subscription</button>
+      <button id="toggle-button-onetime" class="toggle-button">One-time Purchase</button>
+    </div>
+    <div id="subscription-toggle-labels" class="w fh tc mb4 t-body-small">
+      <span>(180 pills)</span>
+      <span>(60 pills)</span>
+    </div>
+  {% endif %}
+
+
+  {% if handle contains 'the-app' %}
+    {% render 'product-app-buttons', product: product  %}
+  {% endif %}
+
+  {% if product.price > 0 %}
+    <div id="product-actions" class="fv ws">
+
+      {% if product.available %}
+        <form id="product-form" class="product-form fh fc" action="/cart/add" method="post" enctype="multipart/form-data" onsubmit="">
+
+          <div style="display:none!important;">
+            {% render 'paywhirl-plan-selector', product: product %}
+          </div>
+
+          {% comment %}
+            uses product__current-price to tap into PayWhirl scripts
+            see paywhirl-settings.liquid for list of selectors
+          {% endcomment %}
+
+          <div class="item-controls fh mr2">
+            <div class="item-quantity t-label fh fc">
+              <button type="button" aria-label="Decrement Quantity" class="btn teal btn-quantity decrement mr1"><span>-</span></button>
+              <span class="btn bg-teal-light item-quantity-label">1</span>
+              <button type="button" aria-label="Increment Quantity" class="btn teal btn-quantity increment ml1"><span>+</span></button>
+            </div>
+          </div>
+
+          <button type="submit" id="add-to-cart" class="add-to-cart r btn teal product__price">
+            <span>Add to Cart</span>&nbsp;•&nbsp;<span id="product-price" class="product__current-price">{{ default_price | money }}</span>
+            {% if preorder_text != blank %}
+              <p id="preorder-text" class="t-body-small tc">{{preorder_text}}</p>
+            {% endif %}
+          </button>
+
+          <input class="item-quantity-input visually-hidden" min="1" type="number" id="quantity" name="quantity" value="1"/>
+
+          {% for variant in product.variants %}
+
+            <input
+            class="form-input hidden"
+            type="radio"
+            name="id"
+            data-product-id="{{product.id}}"
+            value="{{ variant.id }}"
+            data-handle="{{ variant.title | handle }}"
+            data-option1="{{ variant.option1 | handle }}"
+            data-option2="{{ variant.option2 | handle }}"
+            data-price="{{ variant.price | money_without_currency }}"
+            >
+          {% endfor %}
+        </form>
+      {% else %}
+        <span class="t-body-large btn white-border disabled">Out of Stock</span>
+      {% endif %}
+
+      
+    </div>
+  {% endif %}
+
+  {% if offer_kit %}
+    {% render 'product-subscription-panel', product: product  %}
+  {% endif %}
+
+</div>

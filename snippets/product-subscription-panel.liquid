@@ -1,0 +1,33 @@
+{% assign text = product.metafields.accentuate.subscription_text %}
+{% assign image = product.metafields.accentuate.subscription_image | first %}
+{% assign cta = product.metafields.accentuate.subscription_cta %}
+{% assign variant_id = all_products['diagnostic-kit'].variants[0].id %}
+
+{% if text == blank %}
+	{% assign text = '<h5>Get a free test kit with subscription</h5>' | html %}
+{% endif %}
+
+<div id="subscription-panel" class="product-panel">
+	<div id="subscription-panel-inner" class="p3 fh fc bg-yellow-light mb4">
+		
+		<div>
+			<div class="mr4 w80">{{text}}</div>
+			<div id="kit-upsell" class="mt3">
+				<input id="kit-upsell-checkbox" type="checkbox">
+				<label for="kit-upsell-checkbox" class="t-body-small no-caps">{{cta}}</label>
+				<form style="display: none" id="kit-upsell-form" action="/cart/add" method="post" enctype="multipart/form-data">
+					<input type="number" name="quantity" value="1"/>
+					<input checked="checked" type="radio" name="id" value="{{variant_id}}">
+					<button type="submit">
+				</form>
+			</div>
+		</div>
+		
+		{% if image != blank %}
+			<div id="subscription-panel-image" class="panel-image cover">
+				<img class="lazy" data-src="{{image.cloudinary_src | append: 'w_200'}}" alt="Diagnostic Kit thumbnail">
+			</div>
+		{% endif %}
+
+	</div>
+</div>

@@ -1,0 +1,16 @@
+{% unless section.settings.hide == true %}
+
+  {% assign heading = section.settings.heading %}
+
+  <div class="testimonials-wrapper slider-wrapper wxl mc tc p4">
+    <p class="testimonials-header t-h3 p5 wm mc ani-anchor">{{heading}}</p>
+    <div class="testimonials-items slider slider-mobile dots fh fjc fs fw mb5">
+
+      {% for block in section.blocks %}
+        {% render 'comp-testimonial', block: block, section  %}
+      {% endfor %}
+
+    </div>
+  </div>
+
+{% endunless %}

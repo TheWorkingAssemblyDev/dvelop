@@ -1,0 +1,36 @@
+{% assign headlines = product.metafields.accentuate.value_prop_headline %}
+{% assign size = headlines | size %}
+
+{% if size > 0 %}
+	<section id="product-value-props" class="bg-tan-light {% if size > 1 %}slider-wrapper{% endif %}">
+	  <div class="slider autoplay">
+	    {% for headline in headlines %}
+		    {% if headline != blank %}
+
+		    	{% assign text = product.metafields.accentuate.value_prop_text[forloop.index0] %}
+					{% assign image = product.metafields.accentuate.value_prop_image[forloop.index0] | first %}
+
+		      <div class="slide p4 w">
+
+		      	<div class="slide-inner wm mc fh fs fjc">
+		      		{% if image != blank %}
+								<img class="product-value-prop-image contain lazy mr4" data-src="{{image.cloudinary_src | append: 'w_300'}}" alt="{{header}}">
+							{% endif %}
+							
+							<div class="product-value-prop-text fv fjc">
+								<p class="t-h5 mb2">{{headline}}</p>
+								{% if text != blank %}<p>{{text}}</p>{% endif %}
+							</div>
+
+		      	</div>
+			     
+					</div>
+				{% endif %}
+	    {% endfor %}
+	  </div>
+	  {% if size > 1 %}
+	    <button aria-label="Go to previous slide" class="btn-prev desktop-only">{% render 'svg-arrow-left' %}</button>
+	    <button aria-label="Go to next slide" class="btn-next desktop-only">{% render 'svg-arrow-right' %}</button>
+	  {% endif %}
+	</section>
+{% endif %}

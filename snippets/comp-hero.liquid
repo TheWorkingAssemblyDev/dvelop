@@ -1,0 +1,40 @@
+{% assign headline = section.settings.headline %}
+{% assign subline = section.settings.subline %}
+{% assign paragraph = section.settings.paragraph %}
+{% assign url = section.settings.url %}
+{% assign cta = section.settings.cta %}
+{% assign image = section.settings.image %}
+{% assign mobile_image = section.settings.mobile_image %}
+{% assign alt = section.settings.alt %}
+{% assign full_bleed = section.settings.full_bleed %}
+
+{% if image != blank %}
+  <picture class="hero-image cover{% if full_bleed %} abs-f{% endif %}">
+    {% if mobile_image != blank %}
+      <source media="(min-width: 1600px)" srcset="{{ image | img_url:'2400x' }}">
+      <source media="(min-width: 1200px)" srcset="{{ image | img_url:'1800x' }}">
+      <source media="(min-width: 900px)" srcset="{{ image | img_url:'1400x' }}">
+      <source media="(min-width: 0px)" srcset="{{ mobile_image | img_url:'900x' }}">
+      <img src="{{ image | img_url:'1400x' }}" alt="{{alt}}">
+    {% else %}
+      <img srcset="{{image | img_url: '900x'}} 600w,
+               {{image | img_url: '1800x'}} 1200w,
+               {{image | img_url: '2400x'}} 1800w,
+               {{image | img_url: '3000x'}} 2400w"
+       sizes="(max-width: 600px) 900px,
+              (max-width: 1200px) 1800px,
+              (max-width: 1800px) 2400px,
+              3000px"
+       src="{{image | img_url: '2400x'}}"
+       alt="{{alt}}">
+    {% endif %}
+  </picture>
+{% endif %}
+<div class="hero-text wm fv fjc r z1">
+  {% if headline != blank %}<h1 class="hero-headline ani-anchor">{{headline}}</h1>{% endif %}
+  {% if subline != blank %}<h2 class="hero-subline mt4 t-h4 ani-anchor">{{subline}}</h2>{% endif %}
+  {% if paragraph != blank %}<p class="hero-paragraph mt4 ani-anchor">{{paragraph}}</p>{% endif %}
+  {% if cta != blank and url != blank %}
+    <a href="{{url}}" class="hero-button btn white mt5 ani-anchor">{{cta}}</a>
+  {% endif %}
+</div>

@@ -1,0 +1,93 @@
+{% comment %}
+if it's attached to a variant, it doesn't belong in the slider
+{% endcomment %}
+{% assign slide_count = 0 %}
+{% for image in product.images %}
+  {% unless image.alt == 'thumb' or image.attached_to_variant? %}
+    {% assign slide_count = slide_count | plus: 1 %}
+  {% endunless %} 
+{% endfor %}
+
+{% assign single_images = product.images | where: "alt", "single" %}
+{% assign bundle_images = product.images | where: "alt", "bundle" %}
+
+{% assign index = 0 %}
+
+<div id="product-gallery" class="r">
+
+  {% if single_images.size > 0 %}
+  <div id="slider-single" class="{% if single_images.size > 1 %}slider-wrapper{% endif %}">
+    <div class="slider">
+    {% for image in single_images %}
+      {% assign index = index | plus: 1 %}
+      <div class="slide image-wrapper cover" itemprop="image">
+        <img class="product-image" 
+            srcset="{{image | img_url: '600x'}} 600w,
+                     {{image | img_url: '1200x'}} 900w,
+                     {{image | img_url: '1200x'}} 1200w"
+            sizes="(max-width: 600px) 600px,
+                    (max-width: 900px) 1200px,
+                    (max-width: 1400px) 1200px,
+                    1800px"
+            src="{{image | img_url: '1800x'}}"
+            alt="{{product.title}}">
+      </div>
+    {% endfor %}
+    </div>
+
+    {% if single_images.size > 1%}
+      <button aria-label="Slide to Previous Image" class="btn-prev">{% render 'svg-arrow-left' %}</button>
+      <button aria-label="Slide to Next Image" class="btn-next">{% render 'svg-arrow-right' %}</button>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+{% assign index = 0 %}
+
+  {% if bundle_images.size > 0 %}
+  <div id="slider-bundle" class="abs-f active {% if bundle_images.size > 1 %}slider-wrapper{% endif %}">
+    <div class="slider">
+    {% for image in bundle_images %}
+      {% assign index = index | plus: 1 %}
+      <div class="slide image-wrapper cover" itemprop="image">
+        <img class="product-image" 
+            srcset="{{image | img_url: '600x'}} 600w,
+                     {{image | img_url: '1200x'}} 900w,
+                     {{image | img_url: '1200x'}} 1200w"
+            sizes="(max-width: 600px) 600px,
+                    (max-width: 900px) 1200px,
+                    (max-width: 1400px) 1200px,
+                    1800px"
+            src="{{image | img_url: '1800x'}}"
+            alt="{{product.title}}">
+      </div>
+    {% endfor %}
+    </div>
+
+    {% if bundle_images.size > 1%}
+      <button aria-label="Slide to Previous Image" class="btn-prev">{% render 'svg-arrow-left' %}</button>
+      <button aria-label="Slide to Next Image" class="btn-next">{% render 'svg-arrow-right' %}</button>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  {% if bundle_images.size == 0 and single_images.size == 0 %}
+    <div class="slider">
+      <div class="slide image-wrapper cover" itemprop="image">
+        <img class="product-image" 
+            srcset="{{product.featured_image | img_url: '600x'}} 600w,
+                     {{product.featured_image | img_url: '1200x'}} 900w,
+                     {{product.featured_image | img_url: '1200x'}} 1200w"
+            sizes="(max-width: 600px) 600px,
+                    (max-width: 900px) 1200px,
+                    (max-width: 1400px) 1200px,
+                    1800px"
+            src="{{image | img_url: '1800x'}}"
+            alt="{{product.title}}">
+      </div>
+    </div>
+  {% endif %}
+
+</div>

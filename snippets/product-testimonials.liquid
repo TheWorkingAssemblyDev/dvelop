@@ -1,0 +1,21 @@
+{% assign hide = product.metafields.accentuate.testimonial_hide %}
+{% assign heading = product.metafields.accentuate.testimonial_header %}
+
+{% if hide == 'true' or product.metafields.accentuate.testimonial_review == blank %}
+	{% break %}
+{% endif %}
+
+<div class="testimonials-wrapper slider-wrapper tc p4 bg-yellow">
+	{% if heading != blank %}
+  	<p class="testimonials-header t-h3 p5 wm mc ani-anchor">{{heading}}</p>
+  {% endif %}
+  <div class="testimonials-items slider slider-mobile dots fh fjc fs fw mb5">
+
+    {% assign index = 0 %}
+    {% for review in product.metafields.accentuate.testimonial_review %}
+      {% render 'comp-testimonial', block: block, index: index, product  %}
+      {% assign index = index | plus: 1 %}
+    {% endfor %}
+
+  </div>
+</div>

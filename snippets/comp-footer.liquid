@@ -1,0 +1,28 @@
+<footer id="footer" class="oh bg-white">
+
+	<div id="footer-main" class="pt4 fh">
+		<div id="footer-left" class="fv">
+			{% render 'comp-email-signup'  %}
+		</div>
+		
+		<nav id="footer-links" class="fh fje">
+			{% for link in linklists.footer.links %}
+				<ul class="ml5" data-footer-list={{link.title | handle}}>
+					<li class="t-h4 mb4">{{link.title}}</li>
+					{% for child in link.links %}
+						<li class="mb2"><a href="{{child.url}}">{{child.title}}</a></li>
+					{% endfor %}
+				</ul>
+			{% endfor %}
+		</nav>
+	</div>
+
+	<a id="footer-logo" class="logo contain mt4" href="{{ shop.url }}" aria-label="Logo with link to homepage">{% render 'svg-logo' %}</a>
+
+	
+</footer>
+
+<script>
+	// set min container height
+	document.getElementById('main').style.minHeight = `calc(100vh - ${document.getElementById('footer').offsetHeight}px)`;
+</script>

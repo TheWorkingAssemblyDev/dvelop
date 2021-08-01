@@ -1,0 +1,164 @@
+{% unless section.settings.hide == true %}
+
+  {% comment %} GENERAL/LAYOUT {% endcomment %}
+  {% assign background_color = section.settings.background_color %}
+  {% assign product = all_products[section.settings.product] %}
+  {% assign header = section.settings.header %}
+  {% assign description = section.settings.description %}
+  {% comment %} IMAGE {% endcomment %}
+  {% assign image = section.settings.image %}
+  {% assign mobile_image = section.settings.mobile_image %}
+  {% assign video_url = section.settings.video_url %}
+  {% assign alt = section.settings.alt %}
+  {% assign image_zoom = section.settings.image_zoom %}
+  {% assign btn_url = section.settings.link %}
+
+
+  {% if headline_center and headline != blank %}
+    <p class="tc mc pb5 pt7 editorial-header editorial-header-top ani-anchor">{{headline | newlines_to_br}}</p>
+  {% endif %}
+
+  <div class="editorial-main pt4 pb4 mc oh editorial-style-cover" style="background-color: {{background_color}};">
+
+    {% if image != blank %}
+      <picture class="editorial-image cover abs-f ani-anchor">
+        <source media="(min-width: 1600px)" srcset="{{ image | img_url:'master' }}">
+        <source media="(min-width: 1200px)" srcset="{{ image | img_url:'2400x' }}">
+        <source media="(min-width: 900px)" srcset="{{ image | img_url:'1800x' }}">
+        {% if mobile_image != blank %}
+          <source media="(min-width: 0px)" srcset="{{ mobile_image | img_url:'900x' }}">
+        {% else %}
+          <source media="(min-width: 0px)" srcset="{{ image | img_url:'900x' }}">
+        {% endif %}
+        <img class="lazy" data-src="{{image | img_url: '2000x'}}"alt="{{alt}}">
+      </picture>
+    {% endif %}
+
+    <div class="editorial-text fv fjc p4 r ani-anchor">
+      {% comment %}
+      • temporarily hide modules to purchase since there is a live price test
+      {% render 'product-info', product: product %}
+      {% endcomment %}
+      <div id="product-info" class="fv p4">
+        {% if header != blank %}
+          <h1 id="product-title" class="t-h3 mb3">{{header}}</h1>
+        {% endif %}
+        {% if description != blank %}
+          <div id="product-description" class="mb4" >{{description}}</div>
+        {% endif %}
+      </div>
+      <div class="pr4 pl4 mb6">
+        <a id="temp-purchase-button" href="{{product.url}}" class="btn white">Purchase</a><a id="take-test-button" href="{{ btn_url }}" class="btn black">Take Our Vitamin D Quiz</a>
+      </div>
+    </div>
+
+  </div>
+
+  {% comment %}
+  inline to avoid flicker and to muck up the core styling with ad hoc rules
+  {% endcomment %}
+  <style>
+
+    {% comment %}
+    START
+    • temporarily hide modules to purchase since there is a live price test
+    {% endcomment %}
+    #subscription-toggle,
+    #subscription-toggle-labels,
+    #amplid-panel,
+    #product-actions {
+      display: none;
+    }
+
+    #temp-purchase-button{
+	    margin: 0;
+    }
+    
+    #temp-purchase-button,
+	#take-test-button{
+      display: inline;
+    }
+    #take-test-button {
+      background-color: #000000;
+      color:#fff;
+      margin-left:3px;
+    }
+
+    @media (max-width: 900px) {
+      #temp-purchase-button {
+        margin: 0 auto;
+      }      
+    }
+
+    #product-info {
+      padding-bottom: 0;
+    }
+    {% comment %}
+    END
+    {% endcomment %}
+
+
+    .landing-hero {
+      overflow: hidden;
+    }
+
+    .landing-hero .editorial-main {
+      height: auto;
+    }
+
+      .landing-hero #amplid-panel-inner {
+        border-radius: 15px;
+        background-color: var(--cr-peach);
+      }
+
+      .landing-hero #subscription-toggle {
+        background-color: #FFCFB8;
+      }
+
+        .landing-hero #subscription-toggle::after {
+          background-color: var(--cr-peach);
+        }
+
+      .landing-hero #add-to-cart {
+        background-color: var(--cr-white);
+      }
+
+        .landing-hero #add-to-cart:focus {
+          background-color: var(--cr-yellow);
+        }
+
+    @media (hover: hover) {
+      .landing-hero #add-to-cart:hover {
+        background-color: var(--cr-yellow);
+      }
+    }
+
+     /*hardcode height to avoid full bleed image resizing when toggling subscription*/
+    @media (min-width: 901px) {
+      .landing-hero .editorial-image {
+        height: max(100%,133vh);
+        max-height: none;
+      }
+
+      .landing-hero .editorial-text {
+        margin: 0 auto 0 0;
+        max-width: min(50%,750px);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .landing-hero .editorial-image {
+        position: relative;
+      }
+
+      .landing-hero .editorial-text {
+        padding: 0 !important;
+        padding-right: 0 !important;
+      }
+    }
+
+
+  </style>
+
+
+{% endunless %}

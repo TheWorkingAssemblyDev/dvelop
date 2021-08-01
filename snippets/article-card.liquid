@@ -1,0 +1,23 @@
+{% assign article_words = article.content | strip_html | strip_newlines | downcase | split:' ' %}
+{% assign reading_time = article_words | size | divided_by: 200.0 | ceil | at_least: 1 %}
+
+{% assign image = article.image | img_url: '800x' %}
+
+{% if article.metafields.accentuate.card_image[0] != blank %}
+	{% assign variable = article.metafields.accentuate.card_image[0].cloudinary_src | append: 'w_800'  %}
+{% endif %}
+
+<div class="article-card ani-anchor r {{class}}">
+	<div class="article-card-image cover mb3">
+  	<img class="{% if lazy == true %}lazy{% endif %}" {% if lazy == true %}data-{% endif %}src="{{image}}" alt="{{article.title}}">
+  </div>
+  <div class="article-card-info">
+  	<div class="article-reading-time t-body-bold bel cr-peach mb1">{{reading_time}} min read</div>
+  	<a href="{{article.url}}" class="article-card-title t-h5">{{article.title}}</a>
+
+	  {% if article.excerpt != blank %}
+	  	<p class="t-body-bold mt2">{{article.excerpt}}</p>
+	  {% endif %}
+	</div>
+
+</div>

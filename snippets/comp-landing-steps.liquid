@@ -1,0 +1,31 @@
+{% unless section.settings.hide == true %}
+
+  {% assign heading = section.settings.heading %}
+
+  <div class="steps-wrapper wl mc tc p4">
+    <p class="steps-header t-h3 p5 wm mc ani-anchor">{{heading}}</p>
+    <div class="steps-items fh fjc fs fw mb5">
+
+      {% for block in section.blocks %}
+        {% assign image = block.settings.image %}
+        {% assign alt = block.settings.alt %}
+        {% assign text = block.settings.text %}
+
+        <div class="step-item p2 mc fv ani-anchor">
+          {% if image != blank %}
+            <picture class="step-item-image contain">
+              <img class="lazy" data-src="{{image | img_url: '500x'}}" alt="{{alt}}">
+            </picture>
+          {% endif %}
+
+          {% if text != blank %}
+            <p class="step-text tc mt3">{{text}}</p>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+    
+{% endunless %}

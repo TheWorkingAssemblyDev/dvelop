@@ -1,0 +1,81 @@
+<header id="header">
+
+		<nav id="menu" class="fh fs t-label">
+
+			<ul id="menu-left" class="fh fc">
+				<li id="navigation-logo" class="logo menu-item contain">
+					<a href="{{ shop.url }}" class="fh contain" aria-label="Logo with link to homepage">
+						{% render 'svg-logo' %}
+					</a>
+				</li>
+			</ul>
+
+
+			<ul id="menu-right" class="fh fs">
+				{% comment %}
+				remove megamenu trigger for now
+				<li id="menu-shop-trigger" class="menu-item fh fs r">
+				{% endcomment %}
+
+				<li class="menu-item fh fs r">
+					
+					{% comment %}
+					along with id for trigger link
+					<a id="menu-shop-trigger-link" class="fh fc" href="/collections/shop"><span class="hover-line">Shop</span></a>
+					{% endcomment %}
+
+					<a class="menu-link fh fc" href="/products/vitamin-d"><span class="hover-line">Shop</span></a>
+
+					<ul id="menu-shop-flyout" class="fh desktop-only">
+						{% for link in linklists.megamenu.links %}
+							{% assign index = 0 %}
+							<li class="menu-flyout-column fv fs">
+								<p class="menu-item nowrap menu-flyout-item t-h5 mb3 no-caps"><span>{{ link.title }}</span></p>
+								{% for childlink in link.links %}
+									{% comment %}
+									skip (index of) regular/linklist's 'shop' link for now
+									{% endcomment %}
+									{% assign index = index | plus: 1 %}
+									<a class="menu-link menu-flyout-item mb3 nowrap {% if link.active %}active{% endif %}" href="{{ childlink.url }}"><span>{{ childlink.title }}</span></a>
+								{% endfor %}
+							</li>
+						{% endfor %}
+					</ul>
+
+				</li>
+					
+				{% for link in linklists.main-menu.links offset: 1 %}
+					<li class="menu-item fh fs {% if link.active %}active{% endif %}" data-link-handle="{{link.title | handle}}"><a class="menu-link fh fc" href="{{ link.url }}"><span class="hover-line">{{ link.title }}</span></a></li>
+				{% endfor %}
+
+				<li id="menu-account" class="fh fc"><a href="/account" class="menu-link menu-link-icon fh fc fjc {% if link.active %}active{% endif %}">
+					{% render 'svg-account' %}
+				</a></li>
+
+				<li class="fh fc"><button id="menu-cart" class="menu-link menu-link-icon fh fc fjc" aria-label="View Cart">
+					{% render 'svg-cart' %}
+				</button></li>
+			</ul>
+
+		</nav>
+
+		<button id="mobile-nav-trigger" class="fh mobile-only" aria-label="Toggle mobile menu"><hr><hr></button>
+
+		<nav id="mobile-menu" class="bg-soft mobile-only">
+		{% comment %}
+			will be 'mobile' linklist in future release
+		{% endcomment %}
+		{% for link in linklists.footer.links %}
+			<ul class="mobile-menu-item mb4" style="transition-delay: .{{forloop.index0}}s">
+				<li class="t-h4 mb3">{{link.title}}</li>
+					{% for child in link.links %}
+						<li class="mb3 t-label"><a href="{{child.url}}">{{child.title}}</a></li>
+					{% endfor %}
+			</ul>
+		{% endfor %}
+
+		</nav>
+
+		<div id="overlay"></div>
+	
+</header>

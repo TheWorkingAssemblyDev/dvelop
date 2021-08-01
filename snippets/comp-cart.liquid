@@ -1,0 +1,45 @@
+{% assign cart_empty_text = settings.cart_empty_text %}
+
+<div id="cart">
+	
+	<div id="cart-header" class="r pb3">
+		<button aria-label="Close Cart" class="cart-close contain mb3">{% render 'svg-x'  %}</button>
+		<p class="t-h3" id="cart-title">Your Cart</p>
+	</div>
+
+	<div id="cart-body">
+		<div id="cart-empty" class="fh fc abs-c">
+			{% if cart_empty_text != blank %}
+				<p class="t-h3 tc mc">{{cart_empty_text}}</p>
+			{% endif %}
+		</div>
+
+		<div id="cart-items">
+			{% render 'comp-cart-items' %}
+		</div>	
+
+		{% render 'comp-cart-upsell' %}
+
+	</div>
+	<div id="cart-bottom" class="pt3">
+		<div id="cart-amounts" class="fh fc mb3 pb3 t-label">
+			<span>Estimated Total</span>
+			<span id="cart-total">{{ cart.total_price | money }}</span>
+		</div>
+
+		<a id="cart-checkout" class="btn teal" href="{{ shop.url }}/checkout/"><span>Checkout Now</span></a>
+		{% comment %}
+		{% if additional_checkout_buttons %}
+      <span class="additional-checkout-buttons">
+        <div class="cart-additional-checkout-buttons mt3">
+          {{ content_for_additional_checkout_buttons }}
+        </div>
+      </span>
+    {% endif %}
+    {% endcomment %}
+		<button id="cart-continue" aria-label="Keep shopping and close cart" class="btn white-border cart-close">Keep Shopping</button>
+
+	</div>	
+
+</div>
+
